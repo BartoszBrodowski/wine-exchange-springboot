@@ -1,23 +1,28 @@
 package com.wineexchange.api.Domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "wine")
+@Table(name = "wines")
 public class Wine {
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
     private String name;
-//    private Integer year;
-//    private LocalDate date;
-//    private Float price;
-//    private boolean isAvailable;
+    private Integer year;
+    private LocalDate date;
+    private Float price;
+    private boolean isAvailable;
+
+    @ManyToOne
+    @JoinColumn(name = "winery_id")
+    private Winery winery;
+
+    @OneToOne
+    @JoinColumn(name = "composition_id")
+    private WineComposition wineComposition;
 }
