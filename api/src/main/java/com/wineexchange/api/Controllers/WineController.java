@@ -1,38 +1,66 @@
 package com.wineexchange.api.Controllers;
 
 import com.wineexchange.api.Domain.Wine;
-import com.wineexchange.api.Repository.WineRepository;
 import com.wineexchange.api.Services.WineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/wines")
 public class WineController {
 
     @Autowired
     WineService wineService;
 
     @GetMapping("/getAllWines")
-    public Iterable<Wine> getAllWines(){
-        return wineService.getAllWines();
+    public ResponseEntity<Iterable<Wine>> getAllWines() {
+        try {
+            Iterable<Wine> wines = wineService.getAllWines();
+            return ResponseEntity.ok(wines);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @GetMapping("/getWineById")
-    public Wine getWineById(@RequestBody String id){
-        return wineService.getWineById(id);
+    public ResponseEntity<Wine> getWineById(@RequestParam String id) {
+        try {
+            Wine wine = wineService.getWineById(id);
+            return ResponseEntity.ok(wine);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
+
     @PostMapping("/addWine")
-    public void addWine(@RequestBody Wine wine){
-        wineService.addWine(wine);
+    public ResponseEntity<String> addWine(@RequestBody Wine wine) {
+        try {
+            wineService.addWine(wine);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Wine added successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add wine");
+        }
     }
 
     @PutMapping("/updateWine")
-    public void updateWine(@RequestBody Wine wine){
-        wineService.updateWine(wine);
+    public ResponseEntity<String> updateWine(@RequestBody Wine wine) {
+        try {
+            wineService.updateWine(wine);
+            return ResponseEntity.ok("Wine updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update wine");
+        }
     }
 
     @DeleteMapping("/deleteWine")
-    public void deleteWine(@RequestBody String id){
-        wineService.deleteWine(id);
+    public ResponseEntity<String> deleteWine(@RequestParam String id) {
+        try {
+            wineService.deleteWine(id);
+            return ResponseEntity.ok("Wine deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete wine");
+        }
     }
 }

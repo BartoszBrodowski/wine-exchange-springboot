@@ -2,6 +2,7 @@ package com.wineexchange.api.Services;
 
 import com.wineexchange.api.Domain.User;
 import com.wineexchange.api.Repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,8 @@ public class UserService {
     }
 
     public User getUserById(String id) {
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
 
     public List<User> getAllUsers() {
@@ -29,11 +31,18 @@ public class UserService {
     }
 
     public void updateUser(User user) {
-        userRepository.save(user);
+        if (userRepository.existsById(String.valueOf(user.getId()))) {
+            userRepository.save(user);
+        } else {
+            throw new EntityNotFoundException("User not found with id: " + user.getId());
+        }
     }
 
     public void deleteUser(String id) {
-        userRepository.deleteById(id);
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("User not found with id: " + id);
+        }
     }
-
 }

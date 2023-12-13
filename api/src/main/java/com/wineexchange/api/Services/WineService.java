@@ -2,6 +2,7 @@ package com.wineexchange.api.Services;
 
 import com.wineexchange.api.Domain.Wine;
 import com.wineexchange.api.Repository.WineRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,28 +23,29 @@ public class WineService {
     }
 
     public Wine getWineById(String id) {
-        return wineRepository.findById(id).orElseThrow();
+        return wineRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Wine not found with id: " + id));
     }
 
     public void updateWine(Wine updatedWine) {
-        Wine wineInDb = wineRepository.findById(String.valueOf(updatedWine. getId())).orElse(null);
-        if (wineInDb != null) {
-            wineInDb.setName(updatedWine.getName());
-            wineInDb.setYear(updatedWine.getYear());
-            wineInDb.setDate(updatedWine.getDate());
-            wineInDb.setPrice(updatedWine.getPrice());
-            wineInDb.setWinery(updatedWine.getWinery());
-            wineInDb.setWineComposition(updatedWine.getWineComposition());
-            wineInDb.setAvailable(updatedWine.isAvailable());
-            wineRepository.save(wineInDb);
-        }
+        Wine wineInDb = wineRepository.findById(String.valueOf(updatedWine.getId()))
+                .orElseThrow(() -> new EntityNotFoundException("Wine not found with id: " + updatedWine.getId()));
+
+        wineInDb.setName(updatedWine.getName());
+        wineInDb.setYear(updatedWine.getYear());
+        wineInDb.setDate(updatedWine.getDate());
+        wineInDb.setPrice(updatedWine.getPrice());
+        wineInDb.setWinery(updatedWine.getWinery());
+        wineInDb.setWineComposition(updatedWine.getWineComposition());
+        wineInDb.setAvailable(updatedWine.isAvailable());
+        wineRepository.save(wineInDb);
     }
 
     public void addWine(Wine wine) {
         wineRepository.save(wine);
     }
+
     public void deleteWine(String id) {
         wineRepository.deleteById(id);
     }
 }
-
