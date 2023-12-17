@@ -31,8 +31,8 @@ public class WineController {
         }
     }
 
-    @GetMapping("/getWineById")
-    public ResponseEntity<Wine> getWineById(@RequestParam UUID id) {
+    @GetMapping("/getWineById/{id}")
+    public ResponseEntity<Wine> getWineById(@PathVariable UUID id) {
         try {
             Wine wine = wineService.getWineById(id);
             return ResponseEntity.ok(wine);
@@ -62,8 +62,8 @@ public class WineController {
         }
     }
 
-    @DeleteMapping("/deleteWine")
-    public ResponseEntity<String> deleteWine(@RequestParam UUID id) {
+    @DeleteMapping("/deleteWine/{id}")
+    public ResponseEntity<String> deleteWine(@PathVariable UUID id) {
         try {
             wineService.deleteWine(id);
             return ResponseEntity.ok("Wine deleted successfully");
