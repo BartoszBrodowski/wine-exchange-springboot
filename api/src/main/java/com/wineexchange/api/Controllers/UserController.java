@@ -33,8 +33,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-    @GetMapping("/getUserById")
-    public ResponseEntity<User> getUserById(@RequestBody UUID id) {
+    @GetMapping("/getUserById/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable UUID id) {
         try {
             User user = userService.getUserById(id);
             return ResponseEntity.ok(user);
@@ -53,8 +53,8 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deleteUser")
-    public ResponseEntity<String> deleteUser(@RequestBody UUID id) {
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable UUID id) {
         try {
             userService.deleteUser(id);
             return ResponseEntity.ok("User deleted successfully");
