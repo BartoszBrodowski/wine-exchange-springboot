@@ -16,14 +16,20 @@ public class UserController {
     @Autowired
     UserService userService;
     @PostMapping("/addUser")
-    public ResponseEntity<String> addUser(@RequestBody User user){
+    public ResponseEntity<String> addUser(@RequestBody User user) {
         try {
+            // Check if a user with the same email already exists
+            if (userService.existsByEmail(user.getEmail())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with this email already exists");
+            }
+
             userService.addUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add user");
         }
     }
+
     @GetMapping("/getAllUsers")
     public ResponseEntity<Iterable<User>> getAllUsers() {
         try {

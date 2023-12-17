@@ -2,7 +2,6 @@ package com.wineexchange.api.Domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -32,7 +31,6 @@ public class Wine {
     @DecimalMin(value = "0.01", message = "Price must be greater than or equal to 0.01")
     @Digits(integer = 8, fraction = 2, message = "Invalid price format")
     private Float price;
-    @NotNull(message = "Quantity is mandatory")
 
     private boolean isAvailable = true;
 
