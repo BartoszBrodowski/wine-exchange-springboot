@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -21,7 +22,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User getUserById(String id) {
+    public User getUserById(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
@@ -31,14 +32,14 @@ public class UserService {
     }
 
     public void updateUser(User user) {
-        if (userRepository.existsById(String.valueOf(user.getId()))) {
+        if (userRepository.existsById(user.getId())) {
             userRepository.save(user);
         } else {
             throw new EntityNotFoundException("User not found with id: " + user.getId());
         }
     }
 
-    public void deleteUser(String id) {
+    public void deleteUser(UUID id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
         } else {

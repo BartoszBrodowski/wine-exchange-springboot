@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -31,7 +34,7 @@ public class UserController {
         }
     }
     @GetMapping("/getUserById")
-    public ResponseEntity<User> getUserById(@RequestBody String id) {
+    public ResponseEntity<User> getUserById(@RequestBody UUID id) {
         try {
             User user = userService.getUserById(id);
             return ResponseEntity.ok(user);
@@ -51,7 +54,7 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser")
-    public ResponseEntity<String> deleteUser(@RequestBody String id) {
+    public ResponseEntity<String> deleteUser(@RequestBody UUID id) {
         try {
             userService.deleteUser(id);
             return ResponseEntity.ok("User deleted successfully");

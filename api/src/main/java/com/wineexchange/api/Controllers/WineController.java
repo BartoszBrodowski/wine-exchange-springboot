@@ -7,12 +7,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/wines")
 public class WineController {
 
     @Autowired
     WineService wineService;
+
+    @PostMapping("/loadWines")
+    public void loadWines(@RequestParam String csvFilePath) {
+        wineService.loadWinesFromCsv(csvFilePath);
+    }
 
     @GetMapping("/getAllWines")
     public ResponseEntity<Iterable<Wine>> getAllWines() {
@@ -25,7 +32,7 @@ public class WineController {
     }
 
     @GetMapping("/getWineById")
-    public ResponseEntity<Wine> getWineById(@RequestParam String id) {
+    public ResponseEntity<Wine> getWineById(@RequestParam UUID id) {
         try {
             Wine wine = wineService.getWineById(id);
             return ResponseEntity.ok(wine);
@@ -40,7 +47,8 @@ public class WineController {
             wineService.addWine(wine);
             return ResponseEntity.status(HttpStatus.CREATED).body("Wine added successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add wine");
+            String errorMessage = "Failed to add wine. Error: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
 
@@ -55,7 +63,7 @@ public class WineController {
     }
 
     @DeleteMapping("/deleteWine")
-    public ResponseEntity<String> deleteWine(@RequestParam String id) {
+    public ResponseEntity<String> deleteWine(@RequestParam UUID id) {
         try {
             wineService.deleteWine(id);
             return ResponseEntity.ok("Wine deleted successfully");
