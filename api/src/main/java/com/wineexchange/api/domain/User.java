@@ -31,6 +31,8 @@ public class User {
     @Size(min = 8, max = 30, message = "Password must be between 8 and 30 characters")
     private String password;
 
+
+
     @ManyToMany
     @JoinTable(
             name = "user_cart",
