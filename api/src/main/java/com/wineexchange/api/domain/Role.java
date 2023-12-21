@@ -8,7 +8,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "roles")
-public class Roles {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
