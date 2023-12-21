@@ -1,11 +1,12 @@
-package com.wineexchange.api.Repository;
+package com.wineexchange.api.repository;
 
-import com.wineexchange.api.Domain.WineComposition;
+import com.wineexchange.api.domain.Wine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.UUID;
 
 @RepositoryRestResource
-public interface WineCompositionRepository extends JpaRepository<WineComposition, UUID> {
+public interface WineRepository extends JpaRepository<Wine, UUID> {
+
 }

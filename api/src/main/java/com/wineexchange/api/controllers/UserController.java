@@ -1,8 +1,8 @@
-package com.wineexchange.api.Controllers;
+package com.wineexchange.api.controllers;
 
-import com.wineexchange.api.Domain.User;
-import com.wineexchange.api.Exceptions.UserNotFoundException;
-import com.wineexchange.api.Services.UserService;
+import com.wineexchange.api.domain.User;
+import com.wineexchange.api.exceptions.UserNotFoundException;
+import com.wineexchange.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

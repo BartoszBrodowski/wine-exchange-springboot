@@ -1,13 +1,13 @@
-package com.wineexchange.api.Services;
+package com.wineexchange.api.services;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-import com.wineexchange.api.Domain.Wine;
-import com.wineexchange.api.Domain.WineComposition;
-import com.wineexchange.api.Domain.Winery;
-import com.wineexchange.api.Repository.WineCompositionRepository;
-import com.wineexchange.api.Repository.WineRepository;
-import com.wineexchange.api.Repository.WineryRepository;
+import com.wineexchange.api.domain.Wine;
+import com.wineexchange.api.domain.WineComposition;
+import com.wineexchange.api.domain.Winery;
+import com.wineexchange.api.repository.WineCompositionRepository;
+import com.wineexchange.api.repository.WineRepository;
+import com.wineexchange.api.repository.WineryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

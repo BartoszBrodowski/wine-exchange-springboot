@@ -1,7 +1,7 @@
-package com.wineexchange.api.Exceptions.Handlers;
+package com.wineexchange.api.exceptions.Handlers;
 
-import com.wineexchange.api.Exceptions.UserException;
-import com.wineexchange.api.Exceptions.UserNotFoundException;
+import com.wineexchange.api.exceptions.UserException;
+import com.wineexchange.api.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

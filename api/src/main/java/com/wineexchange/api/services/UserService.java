@@ -1,7 +1,7 @@
-package com.wineexchange.api.Services;
+package com.wineexchange.api.services;
 
-import com.wineexchange.api.Domain.User;
-import com.wineexchange.api.Repository.UserRepository;
+import com.wineexchange.api.domain.User;
+import com.wineexchange.api.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

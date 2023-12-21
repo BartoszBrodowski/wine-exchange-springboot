@@ -1,4 +1,4 @@
-package com.wineexchange.api.Exceptions;
+package com.wineexchange.api.exceptions;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

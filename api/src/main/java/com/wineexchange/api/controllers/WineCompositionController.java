@@ -1,7 +1,7 @@
-package com.wineexchange.api.Controllers;
+package com.wineexchange.api.controllers;
 
-import com.wineexchange.api.Domain.WineComposition;
-import com.wineexchange.api.Services.WineCompositionService;
+import com.wineexchange.api.domain.WineComposition;
+import com.wineexchange.api.services.WineCompositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

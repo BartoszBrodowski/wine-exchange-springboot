@@ -1,6 +1,6 @@
-package com.wineexchange.api.Repository;
+package com.wineexchange.api.repository;
 
-import com.wineexchange.api.Domain.Winery;
+import com.wineexchange.api.domain.Winery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

@@ -1,4 +1,4 @@
-package com.wineexchange.api.Domain;
+package com.wineexchange.api.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
