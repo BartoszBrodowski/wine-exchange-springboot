@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,14 +24,14 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public ResponseEntity<String> addUser(@RequestBody User user) {
+    public ResponseEntity<Object> addUser(@RequestBody User user) {
         try {
             if (userService.existsByEmail(user.getEmail())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with this email already exists");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "User with this email already exists"));
             }
 
             userService.addUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully");
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add user: " + e.getMessage());
         }
