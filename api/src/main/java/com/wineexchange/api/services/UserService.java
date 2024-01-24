@@ -2,6 +2,7 @@ package com.wineexchange.api.services;
 
 import com.wineexchange.api.domain.Role;
 import com.wineexchange.api.domain.User;
+import com.wineexchange.api.domain.Wine;
 import com.wineexchange.api.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,6 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-//    private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
-//        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-//    }
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -31,8 +29,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Optional<User> getUserById(UUID id) {
-        return userRepository.findById(id);
+    public User getUserById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Wine not found with id: " + id));
     }
 
     public Optional<User> getUserByEmail(String email) {

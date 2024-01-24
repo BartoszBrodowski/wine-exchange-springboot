@@ -2,6 +2,7 @@ package com.wineexchange.api.services;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import com.wineexchange.api.domain.Tag;
 import com.wineexchange.api.domain.Wine;
 import com.wineexchange.api.domain.WineComposition;
 import com.wineexchange.api.domain.Winery;
@@ -33,39 +34,6 @@ public class WineService {
         this.wineryRepository = wineryRepository;
     }
 
-    @Transactional
-    public void loadWinesFromCsv(String csvFilePath) {
-        try (CSVReader reader = new CSVReader(new FileReader(csvFilePath))) {
-            List<String[]> rows = reader.readAll();
-
-            for (String[] row : rows) {
-                Wine wine = new Wine();
-                wine.setName(row[0]);
-                wine.setYear(Integer.parseInt(row[1]));
-                wine.setDate(LocalDate.parse(row[2])); // Assuming date is in ISO format (yyyy-MM-dd)
-                wine.setPrice(Float.parseFloat(row[3]));
-                wine.setAvailable(Boolean.parseBoolean(row[4]));
-
-                Winery winery = new Winery();
-                winery.setName(row[5]);
-                winery.setLocation(row[6]);
-
-                WineComposition wineComposition = new WineComposition();
-                wineComposition.setGrape(row[7]);
-                wineComposition.setAlcohol(row[8]);
-
-                wine.setWinery(winery);
-                wine.setWineComposition(wineComposition);
-                winery.getWines().add(wine);
-
-                wineCompositionRepository.save(wineComposition);
-                wineryRepository.save(winery);
-                wineRepository.save(wine);
-            }
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
-        }
-    }
     public List<Wine> getAllWines() {
         return wineRepository.findAll();
     }
@@ -80,17 +48,31 @@ public class WineService {
                 .orElseThrow(() -> new EntityNotFoundException("Wine not found with id: " + updatedWine.getId()));
 
         wineInDb.setName(updatedWine.getName());
-        wineInDb.setYear(updatedWine.getYear());
-        wineInDb.setDate(updatedWine.getDate());
+        wineInDb.setYears(updatedWine.getYears());
         wineInDb.setPrice(updatedWine.getPrice());
         wineInDb.setWinery(updatedWine.getWinery());
         wineInDb.setWineComposition(updatedWine.getWineComposition());
         wineInDb.setAvailable(updatedWine.isAvailable());
+
+        // Update tags
+        List<Tag> updatedTags = updatedWine.getTags();
+
+        // Clear existing tags that are not in the updated collection
+        wineInDb.getTags().removeIf(existingTag -> !updatedTags.contains(existingTag));
+
+        // Update or add new tags
+        for (Tag updatedTag : updatedTags) {
+            if (!wineInDb.getTags().contains(updatedTag)) {
+                wineInDb.getTags().add(updatedTag);
+            }
+        }
+
         wineRepository.save(wineInDb);
     }
 
-    public void addWine(Wine wine) {
+    public Wine addWine(Wine wine) {
         wineRepository.save(wine);
+        return wine;
     }
 
     public void deleteWine(UUID id) {
